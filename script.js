@@ -5,11 +5,15 @@ let getComputerChoice = function getRandom() {
 let computerChoice = getComputerChoice();
 
 if (computerChoice <= 3.33) {
-    computerChoice = "rock"
+    computerChoice = "Rock"
 } else if (computerChoice > 3.33 && computerChoice < 6.66) {
-    computerChoice = "paper"
+    computerChoice = "Paper"
 } else {
-    computerChoice = "scissors"
+    computerChoice = "Scissors"
 }
 
-console.log(computerChoice)
+function getHumanChoice() {
+    
+}
+
+HumanChoice = prompt("Rock, Paper or Scissors?")
