@@ -21,4 +21,4 @@ function getHumanChoice() {
     return prompt("Rock, Paper or Scissors?")
 }
 
-console.log(getHumanChoice())
+// Player Score Variables
