@@ -1,46 +1,28 @@
 // Random Number Generator
-let getComputerChoice = function() {
+function getComputerChoice() {
     return Math.random() * 10;
 }
 
-
-
-// Assign computerChoice to be equivalent to getComputerChoice()
-let computerChoice = getComputerChoice();
-
-
-
 // Function to assign number values to RPS values
-if (computerChoice <= 3.33) {
-    computerChoice = "Rock";
-} else if (computerChoice > 3.33 && computerChoice < 6.66) {
-    computerChoice = "Paper";
-} else {
-    computerChoice = "Scissors";
+function computerChoiceSelector() {
+    let computerChoice = getComputerChoice();
+    if (computerChoice <= 3.33) {
+        return "Rock";
+    } else if (computerChoice > 3.33 && computerChoice < 6.66) {
+        return "Paper";
+    } else {
+        return "Scissors";
+    }
 }
-
-console.log("Computer picked: " + computerChoice);
-
-
 
 // Assigns user input to getHumanChoice()
 function getHumanChoice() {
     return prompt("Rock, Paper or Scissors?").toLowerCase();
 }
 
-
-
-// Get human choice once
-const humanSelection = getHumanChoice();
-console.log("Player picked: " + humanSelection.charAt(0).toUpperCase() + humanSelection.slice(1));
-
-
-
 // Player Score Variables
 let humanScore = 0;
 let computerScore = 0;
-
-
 
 // Play a single round
 function playRound(humanChoice, cpuChoice) {
@@ -61,4 +43,31 @@ function playRound(humanChoice, cpuChoice) {
     console.log(`Scores - Human: ${humanScore}, Computer: ${computerScore}`);
 }
 
-playRound(humanSelection, computerChoice);
+// Function to play the game for 5 rounds
+function playGame() {
+    for (let i = 0; i < 5; i++) {
+        const computerChoice = computerChoiceSelector();
+        console.log("Computer picked: " + computerChoice);
+        
+        const humanSelection = getHumanChoice();
+        console.log("Player picked: " + humanSelection.charAt(0).toUpperCase() + humanSelection.slice(1));
+
+        playRound(humanSelection, computerChoice);
+    }
+
+    // Display final scores
+    console.log('Final Scores:');
+    console.log(`Human: ${humanScore}`);
+    console.log(`Computer: ${computerScore}`);
+
+    if (humanScore > computerScore) {
+        console.log('You are the overall winner!');
+    } else if (computerScore > humanScore) {
+        console.log('The computer is the overall winner!');
+    } else {
+        console.log('The game is a tie overall!');
+    }
+}
+
+// Start the game
+playGame();
