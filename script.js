@@ -1,9 +1,20 @@
+// Variables
+let humanScore = 0;
+let computerScore = 0;
+const winningScore = 5;
+
+const rockBtn = document.querySelector(".rockBtn");
+const paperBtn = document.querySelector(".paperBtn");
+const scissorsBtn = document.querySelector(".scissorsBtn");
+const resultsContainer = document.querySelector(".results");
+const finalScoresContainer = document.querySelector(".finalScores");
+
 // Random Number Generator
 function getComputerChoice() {
     return Math.random() * 10;
 }
 
-// Function to assign number values to RPS values
+// Function to assign number values to RPS values for computer
 function computerChoiceSelector() {
     let computerChoice = getComputerChoice();
     if (computerChoice <= 3.33) {
@@ -15,16 +26,31 @@ function computerChoiceSelector() {
     }
 }
 
-// Assigns user input to getHumanChoice()
-/* function getHumanChoice() {
-    return prompt("Rock, Paper or Scissors?").toLowerCase();
-} */
+rockBtn.addEventListener("click", () => {
+    const humanSelection = "Rock";
+    const computerChoice = computerChoiceSelector();
+    playRound(humanSelection, computerChoice);
+    updateResults(humanSelection, computerChoice);
+    checkGameEnd();
+});
 
-// Player Score Variables
-let humanScore = 0;
-let computerScore = 0;
+paperBtn.addEventListener("click", () => {
+    const humanSelection = "Paper";
+    const computerChoice = computerChoiceSelector();
+    playRound(humanSelection, computerChoice);
+    updateResults(humanSelection, computerChoice);
+    checkGameEnd();
+});
 
-// Play a single round
+scissorsBtn.addEventListener("click", () => {
+    const humanSelection = "Scissors";
+    const computerChoice = computerChoiceSelector();
+    playRound(humanSelection, computerChoice);
+    updateResults(humanSelection, computerChoice);
+    checkGameEnd();
+});
+
+// Single game mechanic
 function playRound(humanChoice, cpuChoice) {
     humanChoice = humanChoice.charAt(0).toUpperCase() + humanChoice.slice(1);
 
@@ -43,68 +69,41 @@ function playRound(humanChoice, cpuChoice) {
     console.log(`Scores - Human: ${humanScore}, Computer: ${computerScore}`);
 }
 
-// Function to play the game for 5 rounds
-function playGame() {
-    /* for (let i = 0; i < 5; i++) {
-        const computerChoice = computerChoiceSelector();
-        console.log("Computer picked: " + computerChoice);
-        
-        const humanSelection = getHumanChoice();
-        console.log("Player picked: " + humanSelection.charAt(0).toUpperCase() + humanSelection.slice(1));
+function updateResults(humanSelection, computerChoice) {
+    resultsContainer.textContent = `Player picked: ${humanSelection} and Computer picked: ${computerChoice}`;
+}
 
-        playRound(humanSelection, computerChoice);
-    } */
-
-    // Display final scores
-    console.log('Final Scores:');
-    console.log(`Human: ${humanScore}`);
-    console.log(`Computer: ${computerScore}`);
-
-    if (humanScore > computerScore) {
-        console.log('You are the overall winner!');
-    } else if (computerScore > humanScore) {
-        console.log('The computer is the overall winner!');
-    } else {
-        console.log('The game is a tie overall!');
+function checkGameEnd() {
+    if (humanScore >= winningScore || computerScore >= winningScore) {
+        displayFinalScores();
+        resetGame();
     }
 }
 
+// Function to display the final scores
+function displayFinalScores() {
+    finalScoresContainer.textContent = `Final Scores - Human: ${humanScore}, Computer: ${computerScore}`;
 
-const rockBtn = document.querySelector(".rockBtn");
-const paperBtn = document.querySelector(".paperBtn");
-const scissorsBtn = document.querySelector(".scissorsBtn");
-const resultsContainer = document.querySelector(".results");
+    if (humanScore > computerScore) {
+        finalScoresContainer.textContent += ' You are the overall winner!';
+    } else if (computerScore > humanScore) {
+        finalScoresContainer.textContent += ' The computer is the overall winner!';
+    } else {
+        finalScoresContainer.textContent += ' The game is a tie overall!';
+    }
+}
 
-rockBtn.addEventListener("click", () => {
-    const humanSelection = "Rock";
-    const computerChoice = computerChoiceSelector();
-    playRound(humanSelection, computerChoice);
-    resultsContainer.textContent = `Player picked: ${humanSelection} and Computer picked: ${computerChoice}`;
-    console.log(`Player picked: ${humanSelection}`);
-    console.log(`Computer picked: ${computerChoice}`);
+// Function to reset the game
+function resetGame() {
+    humanScore = 0;
+    computerScore = 0;
+    resultsContainer.textContent = '';
+    setTimeout(() => finalScoresContainer.textContent = '', 5000); // Clear final scores after 5 seconds
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    if (!rockBtn || !paperBtn || !scissorsBtn || !resultsContainer || !finalScoresContainer) {
+        console.error("Some buttons or results container not found in the DOM.");
+        return;
+    }
 });
-
-paperBtn.addEventListener("click", () => {
-    const humanSelection = "Paper";
-    const computerChoice = computerChoiceSelector();
-    playRound(humanSelection, computerChoice);
-    resultsContainer.textContent = `Player picked: ${humanSelection} and Computer picked: ${computerChoice}`;
-    console.log(`Player picked: ${humanSelection}`);
-    console.log(`Computer picked: ${computerChoice}`);
-});
-
-scissorsBtn.addEventListener("click", () => {
-    const humanSelection = "Scissors";
-    const computerChoice = computerChoiceSelector();
-    playRound(humanSelection, computerChoice);
-    resultsContainer.textContent = `Player picked: ${humanSelection} and Computer picked: ${computerChoice}`;
-    console.log(`Player picked: ${humanSelection}`);
-    console.log(`Computer picked: ${computerChoice}`);
-});
-
-
-
-
-
-// Start the game
-playGame();
